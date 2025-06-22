@@ -11,8 +11,8 @@ export default defineNuxtConfig({
   ],
   pwa: {
     manifest: {
-      name: "Mi Evento",
-      short_name: "Evento",
+      name: "Tuki app",
+      short_name: "Tuki",
       lang: "es",
       start_url: "/",
       display: "standalone",
@@ -20,8 +20,5 @@ export default defineNuxtConfig({
     workbox: {
       /* caché de assets, rutas de API, etc. */
     },
-  },
-  axios: {
-    baseURL: process.env.API_BASE_URL || "https://api.miapp.com",
   },
 });
