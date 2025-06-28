@@ -8,7 +8,14 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxt/test-utils",
     "@nuxt/ui",
-  ],
+    '@nuxtjs/tailwindcss',
+  ], 
+  tailwindcss: {
+    cssPath: '~/assets/css/tailwind.css',
+    configPath: 'tailwind.config.js',
+    exposeConfig: false,  // si quieres acceder a la config desde tu app
+    viewer: true          // para ver la config en /__tailwind
+  },
   pwa: {
     manifest: {
       name: "Tuki app",
