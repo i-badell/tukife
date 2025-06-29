@@ -1,14 +1,7 @@
 import { createAuth0, User } from '@auth0/auth0-vue'
+import { AuthConfig } from '~/config/auth.config';
 
-interface AuthService {
-  isAuthenticated: boolean;
-  user: User | undefined;
-  loading: boolean;
-  error: any; 
-  login: (options?: any) => void;
-  logout: (options?: any) => void;
-  getToken: () => Promise<string | undefined>;
-}
+
 
 export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig();
@@ -16,7 +9,10 @@ export default defineNuxtPlugin((nuxtApp) => {
     domain: config.public.domain,
     clientId: config.public.clientId,
     authorizationParams: {
-      redirect_uri: `${window.location.origin}/auth/callback`,
+      redirect_uri: AuthConfig.callbackUrl(window.location.origin),
+      audience: config.public.audience,
+      // TODO: Uncomment when scopes are needed
+      // scope: config.public.scopes.join(' '),
     },
   }, {
     skipRedirectCallback: window.location.pathname === '/auth/callback',
@@ -25,7 +21,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   console.log('Auth0 plugin initialized with config:', {
     domain: config.public.domain,
     clientId: config.public.clientId,
-    redirectUri: window.location.origin,
+    redirectUri: AuthConfig.callbackUrl(window.location.origin),
     instance: { ...auth0Plugin }
   });
 

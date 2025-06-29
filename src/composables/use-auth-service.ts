@@ -1,6 +1,17 @@
 import { useAuth0 } from '@auth0/auth0-vue'
 import { computed }   from 'vue'
-import type { AppState, User } from '@auth0/auth0-vue'
+import type { User } from '@auth0/auth0-vue'
+
+export interface AuthService  {
+  user: User | null;
+  isLoggedIn: Ref<boolean>;
+  loading: Ref<boolean>;
+  error: Ref<Error | null>;
+  login: (opts?: any) => void;
+  logout: (opts?: any) => void;
+  getToken: () => Promise<string | undefined>;
+  handleRedirectCallback?: (url: string | undefined) => any;
+}
 
 export function useAuthService()  : AuthService  {
   if (!process.client) {
@@ -37,15 +48,4 @@ export function useAuthService()  : AuthService  {
     getToken,
     handleRedirectCallback
   }
-}
-
-export interface AuthService  {
-  user: User | null;
-  isLoggedIn: Ref<boolean>;
-  loading: Ref<boolean>;
-  error: Ref<Error | null>;
-  login: (opts?: any) => void;
-  logout: (opts?: any) => void;
-  getToken: () => Promise<string | undefined>;
-  handleRedirectCallback?: (url: string | undefined) => any;
 }

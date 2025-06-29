@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import { useAuthService } from '@/composables/use-auth-service'
-import { ref, onMounted } from 'vue'
+import { ref, watch } from 'vue'
 import Spinner from '@/components/spinner.vue'
 
 const showSpinner = ref(true)
@@ -33,8 +33,11 @@ const {
   logout,
 } = useAuthService();
 
-onMounted(() => {
-  // showSpinner.value = loading.value;
-});
-
+watch(
+  () => loading.value,
+  (newLoadingValue) => {
+    showSpinner.value = newLoadingValue;
+  },
+  { immediate: true },
+);
 </script>

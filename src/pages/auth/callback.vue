@@ -1,5 +1,5 @@
 <template>
-  <Spinner :show="loading" />
+	<Spinner :show="loading" />
 </template>
 
 <script setup lang="ts">
@@ -12,20 +12,24 @@ const loading = ref(true)
 const { handleRedirectCallback, getToken } = useAuthService()
 
 onMounted(async () => {
-  try {
-    const result = await handleRedirectCallback()
-    const token = await getToken()
-    console.log('Access Token:', token)
+	try {
+		const result = await handleRedirectCallback()
+		const token = await getToken()
+		console.log('Access Token:', token)
 
-    document.cookie = `access_token=${token}; path=/; secure; samesite=lax`
+		await $fetch('/api/auth/callback', {
+			method: 'POST',
+			body: { token }
+		})
 
-    const target = result.appState?.returnTo || '/'
-    router.replace(target)
-  } catch (err) {
-    console.error('Error en callback de Auth0:', err)
-    router.replace('/login?error=true')
-  } finally {
-    loading.value = false
-  }
+		const target = result.appState?.returnTo || '/'
+		router.replace(target)
+		loading.value = false;
+	} catch (err) {
+		loading.value = false;
+		console.error('Error en callback de Auth0:', err)
+		// NOTE: Eliminar despues de implemetar el manejo de errores
+		//router.replace('/login?error=true')
+	} 
 })
 </script>
