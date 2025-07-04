@@ -1,7 +1,7 @@
 <template>
-  <div id="app" class="flex flex-col min-h-screen w-full overflow-auto">
+  <UApp>
     <NuxtPage />
-  </div>
+  </UApp>
 </template>
 
 <script setup lang="ts">
