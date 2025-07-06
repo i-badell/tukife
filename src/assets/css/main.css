@@ -1,0 +1,23 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@theme static {
+  --color-primary:   #00C2A8;
+  --color-secondary: #66E0D2;
+  --color-accent:    #00907E;
+  --color-error:     #B84C42;
+  --color-success:   #28C76F;
+  --color-neutral: #FAFAF9;
+  --color-bg-card:    #FFFFFF;
+  --color-dark: #181818;
+  --color-text-muted:   #666666;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-xl: 1rem;
+
+  --space-layout: 1.5rem;
+
+  --font-sans: 'Irina Sans', ui-sans-serif, system-ui;
+}
+

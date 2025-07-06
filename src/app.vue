@@ -1,5 +1,9 @@
 <template>
-  <div id="app">
-    <Login />
-  </div>
+  <UApp>
+    <NuxtPage />
+  </UApp>
 </template>
+
+<script setup lang="ts">
+
+</script>
