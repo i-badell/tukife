@@ -5,17 +5,14 @@ import { verifyAuthToken } from '~/server/utils/auth.utils'
 export default defineEventHandler(async (event) => {
   const token = getCookie(event, AuthConfig.accessTokenCookieKey)
   if (!token) {
-    // TODO: descomentar cuando el middleware este protegiendo rutas que necesitan autenticación
-    // throw createError({ statusCode: 401, statusMessage: 'Token no encontrado' })
-
-    // Para pruebas, si no hay token, no se lanza error, se loguea y continua
-    console.error('TEST: Token no encontrado, continuando sin autenticación');
+    console.log('token not found');
     return;
   }
 
   const payload = await verifyAuthToken(token)
   if (!payload) {
-    throw createError({ statusCode: 401, statusMessage: 'Token inválido' })
+    deleteCookie(event, AuthConfig.accessTokenCookieKey);
+    return;
   }
 
   event.context.user = payload

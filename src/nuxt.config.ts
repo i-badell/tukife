@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxt/test-utils",
     "@nuxt/ui",
+    "@pinia/nuxt",
   ],
   css: ["~/assets/css/main.css"],
   runtimeConfig: {
@@ -15,10 +16,15 @@ export default defineNuxtConfig({
       clientId: process.env.AUTH0_CLIENT_ID,
       clientSecret: process.env.AUTH0_CLIENT_SECRET,
       audience: process.env.AUTH0_AUDIENCE,
+      errorTimeout: 8000,
       scopes: ["openid", "profile", "email"], fetchOptions: {
         credentials: 'include'
+      },
+      apiConfig: {
+        eventsApiBaseUrl: 'https://localhost:7165/api',
       }
-    },
+
+    }
   },
   app: {
     head: {

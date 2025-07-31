@@ -1,8 +1,9 @@
 import { useAuth0 } from '@auth0/auth0-vue'
-import { computed }   from 'vue'
+import { computed } from 'vue'
 import type { User } from '@auth0/auth0-vue'
+import { Guards } from '~/utils/guards.util';
 
-export interface AuthService  {
+export interface AuthService {
   user: User | null;
   isLoggedIn: Ref<boolean>;
   loading: Ref<boolean>;
@@ -13,19 +14,20 @@ export interface AuthService  {
   handleRedirectCallback?: (url: string | undefined) => any;
 }
 
-export function useAuthService()  : AuthService  {
-  if (!process.client) {
-    return {
-      user:          null,
-      isLoggedIn:    computed(() => false),
-      loading:       computed(() => false),
-      error:         computed(() => null),
-      login:         (opts?: any) => {},
-      logout:        (opts?: any) => {},
-      getToken:      async () => undefined,
-      handleRedirectCallback: (url?: string) => undefined 
-    }
-  }
+const emptyAuthService = {
+  user: null,
+  isLoggedIn: computed(() => false),
+  loading: computed(() => false),
+  error: computed(() => null),
+  login: (_?: any) => { },
+  logout: (_?: any) => { },
+  getToken: async () => undefined,
+  handleRedirectCallback: (_?: string) => undefined
+};
+
+export function useAuthService(): AuthService {
+  // If in server we return a mock
+  if (Guards.isSsr()) return emptyAuthService;
 
   const {
     loginWithRedirect,
@@ -37,13 +39,13 @@ export function useAuthService()  : AuthService  {
     error,
     handleRedirectCallback,
   } = useAuth0()
-    
+
   return {
     user,                                    // Ref<User|null>
     isLoggedIn: computed(() => isAuthenticated.value),
     loading,                                 // Ref<boolean>
     error,                                   // Ref<Error|null>
-    login:  (opts?: any) => loginWithRedirect(opts),
+    login: (opts?: any) => loginWithRedirect(opts),
     logout: (opts?: any) => logout(opts),
     getToken,
     handleRedirectCallback
