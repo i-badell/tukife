@@ -1,43 +1,44 @@
 <template>
-  <div
-    class="w-80 p-4 bg-white rounded-md outline-1 outline-offset-[-1px] outline-Background inline-flex justify-between items-start">
-    <div class="w-24 self-stretch inline-flex flex-col justify-center items-center">
-      <div class="w-24 h-24 bg-zinc-300 rounded"></div>
-      <img class="w-28 h-52 rounded" src="https://placehold.co/108x201" />
-    </div>
-    <div class="pl-4 inline-flex flex-col justify-start items-start gap-4">
-      <div class="flex flex-col justify-start items-start">
-        <div class="justify-start text-Dark text-lg font-normal font-['Inria_Sans'] tracking-tight">
-          {{ props.name }}
-        </div>
-        <div class="w-48 max-w-48 justify-start text-Dark text-xs font-normal font-['Inria_Serif'] tracking-tight">
-          {{ props.description }}  
-        </div>
+  <article
+    class="w-full relative rounded-md bg-[#fdfdfd] border border-[#fafaf9] flex flex-row items-start justify-between p-4 text-left text-lg text-[#181818] font-inria-sans">
+    <NuxtImg class="w-[102px] max-h-full object-cover flex-1" :src="imageUrl" :alt="name" />
+    <div class="flex flex-col items-start justify-start pl-4 gap-2 flex-2">
+      <div class="flex flex-col items-start justify-start">
+        <h3 class="text-base font-semibold tracking-[0.01em]">{{ name }}</h3>
+        <p class="w-[200px] text-sm tracking-[0.01em] font-inria-serif max-w-[200px]">
+          {{ description }}
+        </p>
       </div>
-      <div class="self-stretch inline-flex justify-between items-center">
-        <div class="justify-start text-Dark text-lg font-normal font-['Inria_Sans'] tracking-tight">
-          ${{ props.price }}
-        </div>
-        <div class="p-2.5 bg-primary-accent rounded flex justify-start items-center gap-1">
-          <div data-style="linear" class="w-4 h-4 relative rounded-md">
-            <div
-              class="w-2 h-0 left-[4px] top-[8px] absolute outline outline-[1.50px] outline-offset-[-0.75px] outline-white">
-            </div>
-            <div
-              class="w-0 h-2 left-[8px] top-[4px] absolute outline outline-[1.50px] outline-offset-[-0.75px] outline-white">
-            </div>
-            <div class="w-4 h-4 left-0 top-0 absolute opacity-0"></div>
-          </div>
-        </div>
+      <div class="w-full flex flex-row items-center justify-between">
+        <span class="text-base font-medium tracking-[0.01em]">${{ price }}</span>
+        <button class="rounded bg-[#00c2a8] flex flex-row items-center justify-center p-2"
+          aria-label="Agregar al carrito">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 12H18" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M12 18V6" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+
+        </button>
       </div>
     </div>
-  </div>
+  </article>
 </template>
+
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans&family=Inria+Serif&display=swap');
+
+.font-inria-sans {
+  font-family: 'Inria Sans', sans-serif;
+}
+.font-inria-serif {
+  font-family: 'Inria Serif', serif;
+}
+</style>
 
 
 <script lang="ts" setup>
 import type { Product } from '../types/products';
 
-const props = defineProps<Product>();
+const { name, description, price, imageUrl } = defineProps<Product>()
 
 </script>
