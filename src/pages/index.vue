@@ -1,27 +1,13 @@
 <template>
-    <User 
-      :is-logged-in="isLoggedIn"
-      :loading="loading"
-      :user="user"
-    />
+    <h1>Index</h1>
+    {{ data }}
 </template>
 
 <script lang="ts" setup>
-import { useAuthService } from '@/composables/use-auth-service'
-import { useEventStore } from '../stores/eventStore'
+import type { MainPageData } from '~/types/page_data';
 
-const { isLoggedIn, loading, error, getToken, user } = useAuthService()
-const store = useEventStore();
-const token = await getToken();
+const { data, error, refresh } = useFetch<MainPageData>(`/api/home/data`)
+console.log("TEST", data.value)
+console.log("TEST", error.value)
 
-watch(
-  () => isLoggedIn.value,
-  async (newIsLoggedIn) => {
-    if (!newIsLoggedIn) return;
-    console.log('TEST from watche');
-    store.setAuthToken(token || '');
-    await store.fetchInitialData();
-  },
-  { immediate: true }
-);
 </script>
