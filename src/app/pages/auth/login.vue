@@ -19,7 +19,7 @@
 <script lang="ts" setup>
 import { useRoute } from 'vue-router';
 import { useAuthService } from '@/composables/use-auth-service';
-import { Guards } from '../../utils/guards.util.ts'
+import { Guards } from '~~/utils/guards.util';
 
 const showSpinner = ref(true);
 const { errorTimeout } = useRuntimeConfig().public;
@@ -39,7 +39,7 @@ const { isLoggedIn, loading, login } = useAuthService();
 watch(
   () => [loading.value, isLoggedIn.value],
   (newValues) => {
-    if (Guards.isSSr()) return;
+    if (Guards.isSsr()) return;
     if (error !== undefined) return; 
 
     const [newLoadingValue, newIsLoggedInValue] = newValues;

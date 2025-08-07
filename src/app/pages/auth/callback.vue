@@ -6,21 +6,22 @@
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthService } from '@/composables/use-auth-service'
+import { AuthConfig } from '~~/shared/config/auth.config'
 
 const router = useRouter()
 const loading = ref(true)
 const { handleRedirectCallback, getToken } = useAuthService()
+console.log("callback")
 
 onMounted(async () => {
 	try {
+		if (!handleRedirectCallback) return;
 		const result = await handleRedirectCallback()
 		const token = await getToken()
 		console.log('Access Token:', token)
 
-		await $fetch('/api/auth/callback', {
-			method: 'POST',
-			body: { token }
-		})
+		const tokenCookie = useCookie(AuthConfig.accessTokenCookieKey);
+		tokenCookie.value = token;
 
 		const target = result.appState?.returnTo || '/'
 		router.replace(target)

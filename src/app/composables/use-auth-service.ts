@@ -1,7 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-vue'
 import { computed } from 'vue'
 import type { User } from '@auth0/auth0-vue'
-import { Guards } from '~/utils/guards.util';
+import { Guards } from '~~/utils/guards.util';
 
 export interface AuthService {
   user: User | null;
@@ -11,7 +11,7 @@ export interface AuthService {
   login: (opts?: any) => void;
   logout: (opts?: any) => void;
   getToken: () => Promise<string | undefined>;
-  handleRedirectCallback?: (url: string | undefined) => any;
+  handleRedirectCallback?: (url?: string) => any;
 }
 
 const emptyAuthService = {
@@ -22,7 +22,7 @@ const emptyAuthService = {
   login: (_?: any) => { },
   logout: (_?: any) => { },
   getToken: async () => undefined,
-  handleRedirectCallback: (_?: string) => undefined
+  handleRedirectCallback: (_?: string) => undefined 
 };
 
 export function useAuthService(): AuthService {

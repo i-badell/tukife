@@ -1,5 +1,5 @@
-import { ACCESS_TOKEN } from "~/config/magic.strings";
-import { MainPageData } from "~/types/page_data";
+import { AuthConfig } from "~~/shared/config/auth.config"; 
+import { MainPageData } from "~/types/pageData";
 import { InitialEventData } from "~/types/products";
 import { getCookie } from "h3";
 
@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
       if (isCacheValid) return cachedData;
     }
 
-    const token = getCookie(event, ACCESS_TOKEN);
+    const token = getCookie(event, AuthConfig.accessTokenCookieKey);
     console.log("TEST: ", token)
     const config = useRuntimeConfig(event);
     const data = await $fetch<InitialEventData>(
