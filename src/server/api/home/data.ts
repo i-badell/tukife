@@ -17,6 +17,7 @@ export default defineEventHandler(async (event) => {
     }
 
     const token = getCookie(event, ACCESS_TOKEN);
+    console.log("TEST: ", token)
     const config = useRuntimeConfig(event);
     const data = await $fetch<InitialEventData>(
       `/events/${config.public.server.eventId}/stands`,

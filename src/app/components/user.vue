@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthService } from '@/composables/use-auth-service'
+import { useAuthService } from '~/composables/use-auth-service'
 import { ref, watch } from 'vue'
 import Spinner from '@/components/spinner.vue'
 
@@ -37,8 +37,8 @@ const {
 watch(
   () => [loading.value, isLoggedIn.value],
   ([newLoading, newLoggedIn]) => {
-    showSpinner.value = newLoading;
-    showUserInfo.value = newLoggedIn;
+    showSpinner.value = newLoading ?? false;
+    showUserInfo.value = newLoggedIn ?? false;
   }, { immediate: true }
 );
 </script>

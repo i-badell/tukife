@@ -1,5 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  future: {
+    compatibilityVersion: 4,
+  },
   compatibilityDate: "2025-05-15",
   devtools: { enabled: true },
   modules: [
@@ -23,7 +26,8 @@ export default defineNuxtConfig({
       },
       server: {
         eventId: "955a8a87-7a18-4a59-ac3c-03e73a53cff0",
-        baseUrl: "http://localhost:7500/api",
+        // baseUrl: "http://localhost:7500/api",
+        baseUrl: "https://localhost:7165/api"
       },
     },
   },
