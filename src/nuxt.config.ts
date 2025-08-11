@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     "@nuxt/test-utils",
     "@nuxt/ui",
     "@pinia/nuxt",
+    // "@nuxt/icon"
   ],
   css: ["~/assets/css/main.css"],
   runtimeConfig: {
@@ -26,8 +27,7 @@ export default defineNuxtConfig({
       },
       server: {
         eventId: "955a8a87-7a18-4a59-ac3c-03e73a53cff0",
-        // baseUrl: "http://localhost:7500/api",
-        baseUrl: "https://localhost:7165/api"
+        baseUrl: "https://localhost:7165/api",
       },
     },
   },
@@ -36,7 +36,7 @@ export default defineNuxtConfig({
       link: [
         {
           rel: "stylesheet",
-          href: "https://fonts.googleapis.com/css2?family=Irina+Sans:wght@400;500;600;700&display=swap",
+          href: "https://fonts.googleapis.com/css2?family=Inria+Sans:wght@300;400;600;700&family=Inria+Serif:wght@300;400;700&display=swap",
         },
       ],
     },

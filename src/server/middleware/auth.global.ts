@@ -2,7 +2,7 @@ import { defineEventHandler, getCookie, getRequestURL, H3Event } from "h3";
 import { AuthConfig } from "~~/shared/config/auth.config";
 import { verifyAuthToken } from "../utils/auth.utils";
 
-const EXCLUDED_ROUTES = ["/api/home/data", "/auth", "/", "/store"]
+const EXCLUDED_ROUTES = ["/api/home/data", "/auth", "/", "/store", "/store"]
 
 export default defineEventHandler(async (event: H3Event) => {
   if (isRouteExcluded(event)) return;

@@ -1,6 +1,6 @@
 import { AuthConfig } from "~~/shared/config/auth.config"; 
-import { MainPageData } from "~/types/pageData";
-import { InitialEventData } from "~/types/products";
+import { MainPageData } from "~~/shared/types/pageData";
+import { InitialEventData } from "~~/shared/types/products";
 import { getCookie } from "h3";
 
 const KEY = "EVENT_DATA";
@@ -8,16 +8,17 @@ const TTL = 60 * 1000;
 
 export default defineEventHandler(async (event) => {
   try {
+    console.log("DATA ENDPOINT")
     const cachedData = await useStorage().getItem<MainPageData>(KEY);
     const date = new Date();
 
     if (cachedData) {
       const isCacheValid = new Date(cachedData.lastUpdated).getTime() <= date.getTime() - TTL;
       if (isCacheValid) return cachedData;
+      else await useStorage().removeItem(KEY);
     }
 
     const token = getCookie(event, AuthConfig.accessTokenCookieKey);
-    console.log("TEST: ", token)
     const config = useRuntimeConfig(event);
     const data = await $fetch<InitialEventData>(
       `/events/${config.public.server.eventId}/stands`,

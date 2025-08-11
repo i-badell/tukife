@@ -37,7 +37,7 @@
 
 
 <script lang="ts" setup>
-import type { Product } from '../types/products';
+import type { Product } from '../../shared/types/products';
 
 const { name, description, price, imageUrl } = defineProps<Product>()
 

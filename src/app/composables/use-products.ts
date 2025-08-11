@@ -9,7 +9,7 @@ export function useEventStands() {
   const token = useCookie('access_token').value;
   return useAsyncData('event-stands',
     () => $fetch(`/api/events/${runtimeConfig.public.eventId}/products`, {
-      baseURL: runtimeConfig.public.apiConfig.baseUrl,
+      baseURL: runtimeConfig.public.server.baseUrl,
       headers: {
         Authorization: `Bearer ${token}`
       }

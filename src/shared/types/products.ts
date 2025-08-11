@@ -8,10 +8,14 @@ export interface Product {
 
 export interface Catalog extends Product { }
 
-export interface Stand {
-  standId: string;
-  name: string;
+export interface Stand extends StandDefinition {
   products: Product[];
+}
+
+export type StandDefinition = {
+  standId: string;
+  imageUrl: string;
+  name: string;
 }
 
 export interface InitialEventData {
