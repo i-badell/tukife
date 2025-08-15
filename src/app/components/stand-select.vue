@@ -5,6 +5,10 @@ const props = defineProps<{
 }>();
 const items = ref(props.stands.map(x => ({label: x.name, value: x.standId})))
 const value = ref({label: props.selected.name, value: props.selected.standId})
+console.log('TEST', {
+  items: props.stands,
+  value: props.selected 
+})
 </script>
 
 <template>
