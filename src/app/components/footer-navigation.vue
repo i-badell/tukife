@@ -58,6 +58,7 @@ const active = computed({
     size="lg" 
     variant="link" 
     class="w-full justify-between" 
+    color="primary"
     :ui="{
       list:'min-w-full justify-around',
       indicator: 'bg-primary h-[.25rem] rounded-none'

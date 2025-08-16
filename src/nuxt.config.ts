@@ -11,7 +11,6 @@ export default defineNuxtConfig({
     "@nuxt/test-utils",
     "@nuxt/ui",
     "@pinia/nuxt",
-    // "@nuxt/icon"
   ],
   css: ["~/assets/css/main.css"],
   runtimeConfig: {

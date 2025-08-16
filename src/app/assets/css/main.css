@@ -20,4 +20,8 @@
 
   --font-sans: 'Inria Sans', ui-sans-serif, system-ui;
   --font-serif: 'Inria Serif', ui-serif, Georgia, serif;
+} 
+
+h1,h2,h3 {
+  color: var(--color-dark);
 }
