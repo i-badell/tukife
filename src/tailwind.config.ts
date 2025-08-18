@@ -37,6 +37,9 @@ export default <Config>{
         sans: ['"Irina Sans"', 'ui-sans-serif', 'system-ui'],
         serif: ['"Irina Serif"', 'ui-serif', 'Georgia', 'serif'],
       },
+      boxShadow: {
+        bottom: '0px 1px 4px 0px rgba(0,0,0,0.75)',
+      }
     },
   },
   plugins: [],

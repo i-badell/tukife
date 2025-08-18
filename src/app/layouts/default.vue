@@ -1,14 +1,14 @@
 <template>
   <div class="inset-0 flex flex-col min-h-screen bg-neutral">
-    <header class="sticky top-0 z-50 shadow-[0px_1px_4px_0px_rgba(0,_0,_0,_0.05)]">
+    <header class="sticky top-0 z-50 px-6 py-4 bg-white shadow-xs">
       <MainHeader />
     </header>
 
-    <main class="flex-1">
+    <main class="flex-1 p-4">
       <slot />
     </main>
 
-    <footer class="sticky bottom-0 z-50 bg-white shadow-[0px_-1px_4px_0px_rgba(0,_0,_0,_0.05)]">
+    <footer class="sticky bottom-0 z-50 bg-white shadow-sm">
       <FooterNavigation class=""/>
     </footer>
   </div>

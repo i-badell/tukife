@@ -51,6 +51,7 @@ const active = computed({
 </script>
 
 <template>
+  <!-- TODO: Fix color text and icons when inactive -->
   <UTabs 
     :content="false" 
     :items="items" 
@@ -61,7 +62,7 @@ const active = computed({
     color="primary"
     :ui="{
       list:'min-w-full justify-around',
-      indicator: 'bg-primary h-[.25rem] rounded-none'
+      indicator: 'h-[.25rem] rounded-none'
     }" >
     <template #default="{ item }">
       <div class="flex flex-col items-center justify-center">

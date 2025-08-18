@@ -5,10 +5,7 @@ const props = defineProps<{
 }>();
 const items = ref(props.stands.map(x => ({label: x.name, value: x.standId})))
 const value = ref({label: props.selected.name, value: props.selected.standId})
-console.log('TEST', {
-  items: props.stands,
-  value: props.selected 
-})
+
 </script>
 
 <template>
@@ -18,6 +15,7 @@ console.log('TEST', {
       placeholder: 'Filter...',
       icon: 'i-lucide-search'
     }" 
+    size="xl"
     :items="items" 
     class="w-48" />
 </template>

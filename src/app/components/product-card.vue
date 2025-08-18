@@ -24,18 +24,6 @@
   </article>
 </template>
 
-<style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Inria+Sans&family=Inria+Serif&display=swap');
-
-.font-inria-sans {
-  font-family: 'Inria Sans', sans-serif;
-}
-.font-inria-serif {
-  font-family: 'Inria Serif', serif;
-}
-</style>
-
-
 <script lang="ts" setup>
 import type { Product } from '../../shared/types/products';
 
