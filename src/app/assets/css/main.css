@@ -3,6 +3,7 @@
 
 @theme static {
   --color-primary:   #00C2A8;
+  --color-primary-50: rgba(0, 194, 168, 0.5);
   --color-secondary: #66E0D2;
   --color-accent:    #00907E;
   --color-error:     #B84C42;
