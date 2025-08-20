@@ -1,26 +1,40 @@
 <template>
-  <div class="flex flex-row justify-between items-center w-full bg-white">
-    <h1 class="text-dark font-sans text-lg">Nombre del evento.</h1>
-    <div>
+  <div class="flex justify-between items-center w-full bg-white">
+    <div class="w-6 flex justify-start text-muted">
+      <span>◀</span>
+    </div>
+    <div class="flex-1 text-center font-medium">
+      <h1 class="text-dark font-sans text-xl font-light">{{ props.title }}</h1>
+    </div>
+    <div class="w-6 flex justify-end relative">
       <UChip 
         :show="showBadge" 
-        size="lg" 
+        size="sm" 
         inset 
-        color="error"
+        color="primary" 
         :ui="{
           base: 'mt-1 mr-2'
         }"
       >
-        <UButton icon="si:notifications-thick-fill" color="primary" size="xl" variant="ghost" />
+        <UButton 
+          icon="solar:bell-outline" 
+          size="xl" 
+          variant="ghost" 
+          :ui="{
+            leadingIcon: 'text-muted'
+          }" 
+        />
       </UChip>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-
-// TODO: Call api to get number of cart items
-const items = computed(() => 2);
-const showBadge = computed(() => items.value > 0);
+const props = defineProps<{
+  title: string;
+  notificationCount: number;
+}>();
+// TODO: Call api to get number of notifications
+const showBadge = computed(() => props.notificationCount > 0);
 
 </script>
