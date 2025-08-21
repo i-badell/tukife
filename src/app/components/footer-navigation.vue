@@ -42,10 +42,8 @@ const active = computed({
     return selected?.value || 'home' 
   },
   set(tab) {
-    const selectedRoute = tab === 'home' ? '/' : tab
-    router.push({
-      path: selectedRoute,
-    })
+    const selectedRoute = tab === 'home' ? '/' : `/${tab}`
+    router.push(selectedRoute)
   }
 })
 </script>
