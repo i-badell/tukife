@@ -12,6 +12,10 @@ export interface Stand extends StandDefinition {
   products: Product[];
 }
 
+export interface CartItem extends Product {
+  amount: number;
+}
+
 export type StandDefinition = {
   standId: string;
   imageUrl: string;
