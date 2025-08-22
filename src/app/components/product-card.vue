@@ -20,6 +20,7 @@
             :icon="substractIcon"" 
             size="md" 
             variant="solid" 
+            @click="removeProduct"
             :ui="{
               leadingIcon: 'text-white'
             }" 
@@ -29,6 +30,7 @@
             icon="material-symbols:add-2-rounded" 
             size="md" 
             variant="ghost" 
+            @click="addProduct"
             :ui="{
               leadingIcon: 'text-white'
             }" 
@@ -43,7 +45,18 @@
 <script lang="ts" setup>
 import type { Product } from '../../shared/types/products';
 
-const { name, description, price, imageUrl, amountSelected } = defineProps<Product & { amountSelected: number}>()
+const { productId, name, description, price, imageUrl, amountSelected } = defineProps<Product & { amountSelected: number}>()
 const substractIcon = computed(() => amountSelected == 1 ? 'ic:baseline-delete' : 'mdi:minus')
 const showSubstractIcon = computed(() => amountSelected > 0);
+const emit = defineEmits<{
+  (e: 'add-product', payload: { id: string }) : void;
+  (e: 'remove-product', payload: { id: string}) : void;
+}>();
+
+function addProduct() {
+  emit('add-product', { id: productId });
+}
+function removeProduct() {
+  emit('remove-product', { id: productId });
+}
 </script>
