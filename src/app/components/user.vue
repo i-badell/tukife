@@ -1,6 +1,6 @@
 <template>
   <Spinner id="user-spinner" :loading="showSpinner" />
-  <div v-if="isLoggedIn">
+  <div v-if="showUserInfo">
     <h2>Bienvenido, {{ user?.name }}</h2>
     <ul>
       <li><strong>Nombre:</strong> {{ user?.name }}</li>
@@ -18,11 +18,12 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthService } from '@/composables/use-auth-service'
+import { useAuthService } from '~/composables/use-auth-service'
 import { ref, watch } from 'vue'
 import Spinner from '@/components/spinner.vue'
 
 const showSpinner = ref(true)
+const showUserInfo = ref(false);
 
 const {
   user,
@@ -34,10 +35,10 @@ const {
 } = useAuthService();
 
 watch(
-  () => loading.value,
-  (newLoadingValue) => {
-    showSpinner.value = newLoadingValue;
-  },
-  { immediate: true },
+  () => [loading.value, isLoggedIn.value],
+  ([newLoading, newLoggedIn]) => {
+    showSpinner.value = newLoading ?? false;
+    showUserInfo.value = newLoggedIn ?? false;
+  }, { immediate: true }
 );
 </script>

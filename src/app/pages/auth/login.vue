@@ -1,8 +1,7 @@
 <template>
   <Spinner :show="showSpinner" />
   <div class="bg-neutral flex flex-col p-1 w-full min-h-screen justify-center items-center  -lvh gap-5" v-if="error">
-    <div>
-      <p aria-label="error" class="text-dark font-sans font-normal text-2xl text-center ">Ups!</p>
+    <div> <p aria-label="error" class="text-dark font-sans font-normal text-2xl text-center ">Ups!</p>
     </div>
     <div>
       <img src="@/assets/img/error_face.png" alt="Logo" class="w-24 h-24" />
@@ -20,8 +19,10 @@
 <script lang="ts" setup>
 import { useRoute } from 'vue-router';
 import { useAuthService } from '@/composables/use-auth-service';
+import { Guards } from '~~/utils/guards.util';
 
 const showSpinner = ref(true);
+const { errorTimeout } = useRuntimeConfig().public;
 
 const route = useRoute();
 const error = route.query.error as string | undefined;
@@ -31,27 +32,25 @@ if (error !== undefined) {
   showSpinner.value = false;
   setTimeout(() => {
     login();
-    // TODO: Define timeout for login redirect, use config.
-  }, 10 * 1000);
+  }, errorTimeout);
 }
 const { isLoggedIn, loading, login } = useAuthService();
 
 watch(
   () => [loading.value, isLoggedIn.value],
   (newValues) => {
-    if (error !== undefined) {
-      return
-    }
+    if (Guards.isSsr()) return;
+    if (error !== undefined) return; 
+
     const [newLoadingValue, newIsLoggedInValue] = newValues;
-    if (newLoadingValue) {
-      return;
-    }
+    if (newLoadingValue) return;
+
     if (newIsLoggedInValue) {
-      console.log('Usuario autenticado, redirigiendo a la página principal...');
+      console.log('User authenticated, redirecting.');
       showSpinner.value = false;
       window.location.href = '/';
     } else {
-      console.log('Usuario no autenticado, iniciando sesión...');
+      console.log('User not found, redirecting to login');
       login();
     }
   },

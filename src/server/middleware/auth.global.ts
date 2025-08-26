@@ -1,22 +1,38 @@
-import { defineEventHandler, getCookie, createError } from 'h3'
-import { AuthConfig } from '~/config/auth.config'
-import { verifyAuthToken } from '~/server/utils/auth.utils'
+import { defineEventHandler, getCookie, getRequestURL, H3Event } from "h3";
+import { AuthConfig } from "~~/shared/config/auth.config";
+import { verifyAuthToken } from "../utils/auth.utils";
 
-export default defineEventHandler(async (event) => {
-  const token = getCookie(event, AuthConfig.accessTokenCookieKey)
-  if (!token) {
-    // TODO: descomentar cuando el middleware este protegiendo rutas que necesitan autenticación
-    // throw createError({ statusCode: 401, statusMessage: 'Token no encontrado' })
+const EXCLUDED_ROUTES = ["/api/home/data", "/auth", "/", "/store", "/store"]
 
-    // Para pruebas, si no hay token, no se lanza error, se loguea y continua
-    console.error('TEST: Token no encontrado, continuando sin autenticación');
-    return;
-  }
+export default defineEventHandler(async (event: H3Event) => {
+  if (isRouteExcluded(event)) return;
 
-  const payload = await verifyAuthToken(token)
+  const token = getCookie(event, AuthConfig.accessTokenCookieKey);
+  if (!token) return sendRedirect(event, "/auth/login");
+
+  const payload = await verifyAuthToken(token);
   if (!payload) {
-    throw createError({ statusCode: 401, statusMessage: 'Token inválido' })
+    deleteCookie(event, AuthConfig.accessTokenCookieKey);
+    return sendRedirect(event, "/auth/login");
   }
 
-  event.context.user = payload
-})
+  event.context.user = payload;
+});
+
+function isRouteExcluded(event: H3Event): boolean {
+  const path = event.path;
+  
+  let isExcluded = false;
+  for (let i = 0; i < EXCLUDED_ROUTES.length; i++) {
+    if (path.includes(EXCLUDED_ROUTES[i])) {
+      isExcluded = true; 
+      break;
+    }
+  }
+  console.log('TEST', {
+    requestUrl: path,
+    path: event.path,
+    isExcluded
+  })
+  return isExcluded;
+}

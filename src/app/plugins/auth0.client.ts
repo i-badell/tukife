@@ -1,7 +1,5 @@
 import { createAuth0, User } from '@auth0/auth0-vue'
-import { AuthConfig } from '~/config/auth.config';
-
-
+import { AuthConfig } from '~~/shared/config/auth.config';
 
 export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig();
@@ -11,7 +9,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     authorizationParams: {
       redirect_uri: AuthConfig.callbackUrl(window.location.origin),
       audience: config.public.audience,
-      // TODO: Uncomment when scopes are needed
       // scope: config.public.scopes.join(' '),
     },
   }, {

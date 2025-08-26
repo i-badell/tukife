@@ -1,0 +1,57 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@theme static {
+  --color-primary:   #00C2A8;
+  --color-primary-50: rgba(0, 194, 168, 0.5);
+  --color-secondary: #66E0D2;
+  --color-accent:    #00907E;
+  --color-error:     #B84C42;
+  --color-success:   #28C76F;
+  --color-neutral:   #FAFAF9;
+  --color-bg-card:   #FFFFFF;
+  --color-dark:      #181818;
+  --color-text-muted:#666666;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-xl: 1rem;
+
+  --space-layout: 1.5rem;
+
+  --font-sans: 'Inria Sans', ui-sans-serif, system-ui;
+  --font-serif: 'Inria Serif', ui-serif, Georgia, serif;
+
+  --shadow-bottom: '0px 1px 4px 0px rgba(0,0,0,0.75)';
+  --shadow-top: 'shadow-[0px_-1px_4px_0px_rgba(0,_0,_0,_0.05)]';
+
+  /* Nuxt UI Theme settings */
+  --ui-bg: var(--color-neutral); 
+  --ui-primary: var(--color-primary);
+  --ui-secondary: var(--color-secondary);
+  --ui-success: var(--color-success);
+  --ui-info: var(--color-accent);
+  --ui-error: var(--color-error);
+
+  --ui-text-dimmed: var(--ui-color-neutral-400);
+  --ui-text-muted: var(--color-text-muted);
+  --ui-text-toned: var(--ui-color-neutral-600);
+  --ui-text: var(--color-dark);
+  --ui-text-highlighted: var(--ui-color-neutral-900);
+  --ui-text-inverted: var(--color-white);
+
+  --ui-bg: var(--color-neutral);
+  --ui-bg-muted: var(--ui-color-neutral-50);
+  --ui-bg-elevated: var(--ui-color-neutral-100);
+  --ui-bg-accented: var(--ui-color-neutral-200);
+  --ui-bg-inverted: var(--ui-color-neutral-900);
+
+  --ui-border: var(--ui-color-neutral-200);
+  --ui-border-muted: var(--ui-color-neutral-200);
+  --ui-border-accented: var(--ui-color-neutral-300);
+  --ui-border-inverted: var(--ui-color-neutral-900);
+} 
+
+h1,h2,h3 {
+  /* color: var(--color-dark); */
+}
