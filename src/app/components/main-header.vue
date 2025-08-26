@@ -17,7 +17,7 @@
         }"
       >
         <UButton 
-          icon="solar:bell-outline" 
+          icon="material-symbols:shopping-cart" 
           size="xl" 
           variant="ghost" 
           :ui="{

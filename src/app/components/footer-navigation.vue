@@ -6,11 +6,6 @@ const router = useRouter()
 
 const items = ref<TabsItem[]>([
   {
-    label: 'Menu',
-    tabIcon: 'lucide:align-justify',
-    value: 'user',
-  },
-  {
     label: 'Retirar',
     tabIcon: 'mage:qr-code',
     value: 'checkout',
@@ -21,14 +16,9 @@ const items = ref<TabsItem[]>([
     value: 'home',
   },
   {
-    label: 'Compras',
-    tabIcon: 'material-symbols-light:shopping-bag',
-    value: 'orders',
-  },
-  {
-    label: 'Carrito',
-    tabIcon: 'material-symbols:shopping-cart',
-    value: 'cart',
+    label: 'Perfil',
+    tabIcon: 'solar:user-circle-bold',
+    value: 'user',
   }
 ])
 

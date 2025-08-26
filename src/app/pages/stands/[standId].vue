@@ -2,7 +2,6 @@
 definePageMeta({
   layout: 'stand'
 })
-import { type Product, type StandDefinition } from '~~/shared/types/products';
 const { data: stands } = await useFetch<StandDefinition[]>('/api/stands/all')
 const { data: products } = await useFetch<Product[]>(`/api/stands/${123}`) 
 

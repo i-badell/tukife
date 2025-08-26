@@ -41,5 +41,5 @@
 
 <script lang="ts" setup>
 import MainHeader from '~/components/main-header.vue';
-const showPayButton = computed(() => 1 > 2);
+const showPayButton = computed(() => 3 > 2);
 </script>
