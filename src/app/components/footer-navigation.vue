@@ -8,17 +8,17 @@ const items = ref<TabsItem[]>([
   {
     label: 'Retirar',
     tabIcon: 'mage:qr-code',
-    value: 'checkout',
+    value: 'retirar',
   },
   {
-    label: 'Inicio',
+    label: 'Barras',
     tabIcon: 'material-symbols:home-rounded',
     value: 'home',
   },
   {
     label: 'Perfil',
     tabIcon: 'solar:user-circle-bold',
-    value: 'user',
+    value: 'perfil',
   }
 ])
 
