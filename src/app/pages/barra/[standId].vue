@@ -18,7 +18,7 @@ const { data: products } = await useFetch<Product[]>(`/api/stands/${123}`)
         :description="product.description"
         :price="product.price"
         :image-url="product.imageUrl"
-        :amount-selected="1"
+        :amount="1"
         class="my-2 shadow-xs"
         />
     </div>

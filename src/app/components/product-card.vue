@@ -14,49 +14,19 @@
       </div>
       <div class="flex justify-between w-full">
         <span>${{  price }}</span>
-        <div class="px-2 py-1 self-end gap-1.5 flex flex-row items-center justify-between bg-primary rounded-md text-white">
-          <UButton 
-            v-if="showSubstractIcon"
-            :icon="substractIcon"" 
-            size="md" 
-            variant="solid" 
-            @click="removeProduct"
-            :ui="{
-              leadingIcon: 'text-white'
-            }" 
-          />
-          <span class=" text-xl font-medium ">{{ amountSelected }}</span>
-          <UButton 
-            icon="material-symbols:add-2-rounded" 
-            size="md" 
-            variant="ghost" 
-            @click="addProduct"
-            :ui="{
-              leadingIcon: 'text-white'
-            }" 
-          />
-        </div>
+        <ProductButtons 
+          :product-id="productId"
+          :amount="amount"
+        />
       </div>
-
     </div>
   </article>
 </template>
 
 <script lang="ts" setup>
-import type { Product } from '../../shared/types/products';
+import type { CartItem } from '../../shared/types/products';
+import ProductButtons from './product-buttons.vue';
 
-const { productId, name, description, price, imageUrl, amountSelected } = defineProps<Product & { amountSelected: number}>()
-const substractIcon = computed(() => amountSelected == 1 ? 'ic:baseline-delete' : 'mdi:minus')
-const showSubstractIcon = computed(() => amountSelected > 0);
-const emit = defineEmits<{
-  (e: 'add-product', payload: { id: string }) : void;
-  (e: 'remove-product', payload: { id: string}) : void;
-}>();
+const { productId, name, description, price, imageUrl, amount } = defineProps<CartItem>()
 
-function addProduct() {
-  emit('add-product', { id: productId });
-}
-function removeProduct() {
-  emit('remove-product', { id: productId });
-}
 </script>

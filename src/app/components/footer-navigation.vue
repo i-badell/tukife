@@ -11,7 +11,7 @@ const items = ref<TabsItem[]>([
     value: 'retirar',
   },
   {
-    label: 'Barras',
+    label: 'Inicio',
     tabIcon: 'material-symbols:home-rounded',
     value: 'home',
   },
