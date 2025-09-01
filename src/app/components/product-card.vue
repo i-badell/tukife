@@ -26,12 +26,18 @@
 </template>
 
 <script lang="ts" setup>
+import type { Product } from '~~/shared/types/products';
 import ProductButtons from './product-buttons.vue';
 
 const { product, amount } = defineProps<{
   product: Product;
   amount: number;
 }>()
-const amountUpdate = (payload: number) => { console.log(payload) }
+
+const emit = defineEmits<{ 
+  (evt: 'amountUpdate', product: Product, quantity: number ) : void 
+}>();
+
+const amountUpdate = (payload: number) => emit('amountUpdate', product, payload);
 
 </script>

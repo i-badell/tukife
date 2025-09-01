@@ -12,6 +12,7 @@
   --color-bg-card:   #FFFFFF;
   --color-dark:      #181818;
   --color-text-muted:#666666;
+  --color-warning:   #FFF4E5;
 
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
@@ -32,6 +33,7 @@
   --ui-success: var(--color-success);
   --ui-info: var(--color-accent);
   --ui-error: var(--color-error);
+  --ui-waring: var(--color-waring);
 
   --ui-text-dimmed: var(--ui-color-neutral-400);
   --ui-text-muted: var(--color-text-muted);
