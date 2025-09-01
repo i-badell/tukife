@@ -14,11 +14,7 @@ const { data: products } = await useFetch<CartItem[]>(`/api/products/${123}`)
     <div class="flex flex-col">
       <ProductCard 
         v-for="product in products"
-        :product-id="product.productId"
-        :name="product.name"
-        :description="product.description"
-        :price="product.price"
-        :image-url="product.imageUrl"
+        :product="product"
         :amount="0"
         class="my-2 shadow-xs"
         />

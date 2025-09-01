@@ -3,21 +3,22 @@
     class="w-full relative rounded-md bg-[#fdfdfd] border border-[#fafaf9] flex flex-row items-start justify-between p-4 text-left text-lg text-[#181818] font-inria-sans">
     <NuxtImg 
       class="w-[102px] max-h-full object-cover flex-1" 
-      :src="imageUrl" 
-      :alt="name" />
+      :src="product.imageUrl" 
+      :alt="product.name" />
     <div class="flex flex-col items-start justify-start pl-4 gap-2 flex-2">
       <div class="flex flex-col items-start justify-start">
-        <h3 class="text-base font-normal w-full text-dark">{{ name }}</h3>
+        <h3 class="text-base font-normal w-full text-dark">{{ product.name }}</h3>
         <p class="w-full text-sm font-serif max-w-full text-muted">
-          {{ description }}
+          {{ product.description }}
         </p>
       </div>
       <div class="flex justify-between w-full">
-        <span class="flex items-center">${{  price }}</span>
+        <span class="flex items-center">${{  product.price }}</span>
         <ProductButtons 
-          :product-id="productId"
+          :product-id="product.productId"
           v-bind:model-value="amount"
           :edit-duration-ms="5000"
+          @update-amount="amountUpdate"
         />
       </div>
     </div>
@@ -25,9 +26,12 @@
 </template>
 
 <script lang="ts" setup>
-import type { CartItem } from '../../shared/types/products';
 import ProductButtons from './product-buttons.vue';
 
-const { productId, name, description, price, imageUrl, amount } = defineProps<CartItem>()
+const { product, amount } = defineProps<{
+  product: Product;
+  amount: number;
+}>()
+const amountUpdate = (payload: number) => { console.log(payload) }
 
 </script>

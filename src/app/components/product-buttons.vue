@@ -3,7 +3,7 @@ import type { CartPayload } from '~~/shared/types/api';
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: number): void
-  (e: 'updateProduct', value: number) : void
+  (e: 'updateAmount', value: number) : void
 }>();
 
 const props = withDefaults(defineProps<{
@@ -49,7 +49,7 @@ function finishEdit() {
   isEditing.value = false
   clearTimer()
   emit('update:modelValue', draft.value) 
-  emit('updateProduct', draft.value)
+  emit('updateAmount', draft.value)
 }
 
 function clearTimer() {
