@@ -13,10 +13,11 @@
         </p>
       </div>
       <div class="flex justify-between w-full">
-        <span>${{  price }}</span>
+        <span class="flex items-center">${{  price }}</span>
         <ProductButtons 
           :product-id="productId"
-          :amount="amount"
+          v-bind:model-value="amount"
+          :edit-duration-ms="5000"
         />
       </div>
     </div>

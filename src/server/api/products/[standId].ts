@@ -1,7 +1,7 @@
 import { Product } from "~~/shared/types/products";
 
 export default defineEventHandler(async (event) => {
-  const standId = getRouterParam(event, "id");
+  const standId = getRouterParam(event, "standId");
   const products : Product[] =  [
         {
           "productId": "d3555c24-f7f6-4b65-9b5d-a27ff89fdc2b",

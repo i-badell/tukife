@@ -1,9 +1,10 @@
 <script lang="ts" setup>
+import type { CartItem } from '~~/shared/types/products';
+
 definePageMeta({
   layout: 'stand'
 })
-const { data: stands } = await useFetch<StandDefinition[]>('/api/stands/all')
-const { data: products } = await useFetch<Product[]>(`/api/stands/${123}`) 
+const { data: products } = await useFetch<CartItem[]>(`/api/products/${123}`)
 
 </script>
 
@@ -18,7 +19,7 @@ const { data: products } = await useFetch<Product[]>(`/api/stands/${123}`)
         :description="product.description"
         :price="product.price"
         :image-url="product.imageUrl"
-        :amount="1"
+        :amount="0"
         class="my-2 shadow-xs"
         />
     </div>
