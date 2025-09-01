@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import ModalAlert from '~/components/modal-alert.vue';
 import { useCartStore } from '~/stores/cart-store';
 import { ErorrCodes } from '~~/shared/constants/errors';
 import type { CartItem } from '~~/shared/types/products';
@@ -7,21 +8,30 @@ const route = useRoute();
 const standId = computed(() => route.params.standId as string);
 const cart = useCartStore();
 
+const overlay = useOverlay()
+
+const modal = overlay.create(ModalAlert)
 const hasOtherCart = computed(() => cart.hasOtherStand(standId.value))
 const showPrompt = ref(false)
 let pendingAction: null | (() => void) = null
 
 function handleProductUpdate(product: Product, quantity: number) {
   try {
-    if (hasOtherCart.value) {
-      showPrompt.value = true
-    }
+    
     cart.putProduct(product, quantity)
   } catch (e: any) {
     if (e.message === ErorrCodes.DIFFERENT_STORE) {
       showPrompt.value = true;
       pendingAction = () => cart.putProduct(product, quantity);
     }
+  }
+}
+
+async function handleEditStart() {
+  if (hasOtherCart.value) {
+    const instance = modal.open();  
+    const confirm = await instance.result
+    if (confirm) confirmSwitchStore();
   }
 }
 
@@ -55,6 +65,7 @@ const { data: products } = await useFetch<CartItem[]>(`/api/products/${123}`)
         :amount="0"
         class="my-2 shadow-xs"
         @amount-update="handleProductUpdate"
+        @edit-started="handleEditStart"
         />
     </div>
 

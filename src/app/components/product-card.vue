@@ -19,6 +19,7 @@
           v-bind:model-value="amount"
           :edit-duration-ms="5000"
           @update-amount="amountUpdate"
+          @click="handleClick"
         />
       </div>
     </div>
@@ -36,8 +37,10 @@ const { product, amount } = defineProps<{
 
 const emit = defineEmits<{ 
   (evt: 'amountUpdate', product: Product, quantity: number ) : void 
+  (evt: 'editStarted') : void
 }>();
 
 const amountUpdate = (payload: number) => emit('amountUpdate', product, payload);
+const handleClick = () => emit('editStarted');
 
 </script>
