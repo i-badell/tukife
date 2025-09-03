@@ -1,4 +1,4 @@
-export const useUseCartService = () => {
+export const useCartService = () => {
   const store = useCartStore();
   const cartItems = store.asArray;
 
@@ -18,6 +18,6 @@ export const useUseCartService = () => {
     put: store.putProduct,
     mergeWithCart,
     hasOtherStand: store.hasOtherStand,
-    
+    clear: store.clear
   }
 };

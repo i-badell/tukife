@@ -6,23 +6,22 @@ import type { CartItem } from '~~/shared/types/products';
 
 const route = useRoute();
 const standId = computed(() => route.params.standId as string);
-const cart = useCartStore();
+const cartService = useCartService();
 
 const overlay = useOverlay()
 
 const modal = overlay.create(ModalAlert)
-const hasOtherCart = computed(() => cart.hasOtherStand(standId.value))
+const hasOtherCart = computed(() => cartService.hasOtherStand(standId.value))
 const showPrompt = ref(false)
 let pendingAction: null | (() => void) = null
 
 function handleProductUpdate(product: Product, quantity: number) {
   try {
-    
-    cart.putProduct(product, quantity)
+    cartService.put(product, quantity)
   } catch (e: any) {
     if (e.message === ErorrCodes.DIFFERENT_STORE) {
       showPrompt.value = true;
-      pendingAction = () => cart.putProduct(product, quantity);
+      pendingAction = () => cartService.put(product, quantity);
     }
   }
 }
@@ -40,12 +39,13 @@ definePageMeta({
 })
 
 function confirmSwitchStore() {
-  cart.clear()       // limpiamos local y cola
-  pendingAction?.()  // re-aplicamos la intención original
+  cartService.clear()       // limpiamos local y cola
+  pendingAction?.()  // re-aplicamos la accion original
   pendingAction = null
 }
-const { data: products } = await useFetch<CartItem[]>(`/api/products/${123}`)
+const { data: storeProducts } = await useFetch<CartItem[]>(`/api/products/${123}`)
 
+const products = ref(cartService.mergeWithCart(storeProducts.value ?? []));
 </script>
 
 <template>
