@@ -27,7 +27,6 @@ const active = computed({
     type NavItem = { value: string }
     const path = route.path
     const selected = (items.value as NavItem[]).find(x => x.value !== '' && path.includes(x.value))
-    )
     return selected?.value || 'home' 
   },
   set(tab) {

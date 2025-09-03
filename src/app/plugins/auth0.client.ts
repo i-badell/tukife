@@ -14,13 +14,6 @@ export default defineNuxtPlugin((nuxtApp) => {
   }, {
     skipRedirectCallback: window.location.pathname === '/auth/callback',
   })
-
-    domain: config.public.domain,
-    clientId: config.public.clientId,
-    redirectUri: AuthConfig.callbackUrl(window.location.origin),
-    instance: { ...auth0Plugin }
-  });
-
   
   nuxtApp.vueApp.use(auth0Plugin)
 })
