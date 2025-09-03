@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import ModalAlert from '~/components/modal-alert.vue';
-import { useCartStore } from '~/stores/cart-store';
+import type ProductCard from '~/components/product-card.vue';
 import { ErorrCodes } from '~~/shared/constants/errors';
 import type { CartItem } from '~~/shared/types/products';
 
@@ -14,6 +14,16 @@ const modal = overlay.create(ModalAlert)
 const hasOtherCart = computed(() => cartService.hasOtherStand(standId.value))
 const showPrompt = ref(false)
 let pendingAction: null | (() => void) = null
+const editors = ref<Record<string, typeof ProductCard>>({})
+
+function setEditorRef(id: string, el: unknown) {
+  if (!el) {
+    delete editors.value[id]
+    return
+  }
+
+  editors.value[id] = el as typeof ProductCard 
+}
 
 function handleProductUpdate(product: Product, quantity: number) {
   try {
@@ -26,11 +36,13 @@ function handleProductUpdate(product: Product, quantity: number) {
   }
 }
 
-async function handleEditStart() {
+
+async function handleEditStart(productId: string) {
   if (hasOtherCart.value) {
     const instance = modal.open();  
     const confirm = await instance.result
     if (confirm) confirmSwitchStore();
+    editors.value[productId]?.cancelEdit();
   }
 }
 
@@ -61,11 +73,12 @@ const products = ref(cartService.mergeWithCart(storeProducts.value ?? []));
     <div class="flex flex-col">
       <ProductCard 
         v-for="product in products"
+        :ref="(el) => setEditorRef(product.productId, el)"
         :product="product"
         :amount="0"
         class="my-2 shadow-xs"
         @amount-update="handleProductUpdate"
-        @edit-started="handleEditStart"
+        @edit-started="handleEditStart(product.productId)"
         />
     </div>
 

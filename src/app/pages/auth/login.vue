@@ -46,11 +46,9 @@ watch(
     if (newLoadingValue) return;
 
     if (newIsLoggedInValue) {
-      console.log('User authenticated, redirecting.');
       showSpinner.value = false;
       window.location.href = '/';
     } else {
-      console.log('User not found, redirecting to login');
       login();
     }
   },

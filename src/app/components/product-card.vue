@@ -16,7 +16,9 @@
         <span class="flex items-center">${{  product.price }}</span>
         <ProductButtons 
           :product-id="product.productId"
+          ref="controls"
           v-bind:model-value="amount"
+          v-model:editing="editOpen"
           :edit-duration-ms="5000"
           @update-amount="amountUpdate"
           @click="handleClick"
@@ -35,6 +37,8 @@ const { product, amount } = defineProps<{
   amount: number;
 }>()
 
+const editOpen = ref(false);
+
 const emit = defineEmits<{ 
   (evt: 'amountUpdate', product: Product, quantity: number ) : void 
   (evt: 'editStarted') : void
@@ -42,5 +46,9 @@ const emit = defineEmits<{
 
 const amountUpdate = (payload: number) => emit('amountUpdate', product, payload);
 const handleClick = () => emit('editStarted');
-
+const controls = ref<typeof ProductButtons | null>(null)
+const cancelEdit = () => {
+  controls.value?.cancelEdit();
+}
+defineExpose({ cancelEdit })
 </script>

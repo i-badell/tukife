@@ -8,7 +8,6 @@ const TTL = 60 * 1000;
 
 export default defineEventHandler(async (event) => {
   try {
-    console.log("DATA ENDPOINT")
     const cachedData = await useStorage().getItem<MainPageData>(KEY);
     const date = new Date();
 

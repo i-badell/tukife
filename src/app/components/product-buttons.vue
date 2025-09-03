@@ -1,19 +1,19 @@
 <script lang="ts" setup>
-import type { CartPayload } from '~~/shared/types/api';
-
 const emit = defineEmits<{
   (e: 'update:modelValue', value: number): void
-  (e: 'updateAmount', value: number) : void
-}>();
+  (e: 'updateAmount', value: number): void
+  (e: 'update:editing', value: boolean): void
+}>()
 
 const props = withDefaults(defineProps<{
   // Amount
   modelValue: number
   editDurationMs?: number
   lockWhileEditing?: boolean
+  editing?: boolean
 }>(), {
   editDurationMs: 10_000,
-  lockWhileEditing: true,
+  lockWhileEditing: true
 })
 
 const icons = {
@@ -22,9 +22,20 @@ const icons = {
   add: 'material-symbols:add-2-rounded'
 }
 
-const isEditing = ref(false)
 const draft = ref(props.modelValue)
 let timer: number | undefined
+
+// Soporte controlado/no controlado (controlled/uncontrolled)
+const _isEditing = ref(false)
+const isControlled = computed(() => props.editing !== undefined)
+
+const isEditing = computed<boolean>({
+  get: () => isControlled.value ? !!props.editing : _isEditing.value,
+  set: (val) => {
+    if (isControlled.value) emit('update:editing', val)
+    else _isEditing.value = val
+  }
+})
 
 function startEdit() {
   isEditing.value = true
@@ -37,8 +48,8 @@ function change(delta: number) {
   resetTimer()
 }
 
-const add = () => change(+1);
-const substract = () => change(-1);
+const add = () => change(+1)
+const substract = () => change(-1)
 
 function resetTimer() {
   clearTimer()
@@ -48,8 +59,14 @@ function resetTimer() {
 function finishEdit() {
   isEditing.value = false
   clearTimer()
-  emit('update:modelValue', draft.value) 
+  emit('update:modelValue', draft.value)
   emit('updateAmount', draft.value)
+}
+
+function cancelEdit() {
+  isEditing.value = false
+  clearTimer()
+  draft.value = props.modelValue
 }
 
 function clearTimer() {
@@ -64,7 +81,13 @@ watch(() => props.modelValue, (val) => {
     draft.value = val
   }
 })
+
+onBeforeUnmount(() => {
+  clearTimer()
+})
+defineExpose({ finishEdit, cancelEdit, startEdit })
 </script>
+
 
 <template>
   <div

@@ -15,7 +15,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     skipRedirectCallback: window.location.pathname === '/auth/callback',
   })
 
-  console.log('Auth0 plugin initialized with config:', {
     domain: config.public.domain,
     clientId: config.public.clientId,
     redirectUri: AuthConfig.callbackUrl(window.location.origin),

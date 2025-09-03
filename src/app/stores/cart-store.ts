@@ -66,22 +66,13 @@ export const useCartStore = defineStore<
         localforage.getItem<string | null>(ITEMS_KEY),
         localforage.getItem<string | null>(STAND_KEY),
       ])
-			console.log("LOAD", {
-				queue,
-				items,
-				standId
-			})
+
       if (queue !== null) this.queue = JSON.parse(queue)
       if (items !== null) this.items = JSON.parse(items) 
       if (standId !== null) this.standId = JSON.parse(standId ?? ''); 
     },
 
     async persistAll() {
-			console.log("PERSIST", {
-				queue: this.queue,
-				items: this.items,
-				standId: this.standId
-			})
       await Promise.all([
         localforage.setItem(QUEUE_KEY, JSON.stringify(this.queue)),
         localforage.setItem(ITEMS_KEY, JSON.stringify(this.items)),
@@ -147,7 +138,6 @@ export const useCartStore = defineStore<
         const token = useCookie('auth')?.value
         await backoffRetry(() => {
 					// TODO: Use real fetch
-					console.log("TEST: Backoff retry");
 					return Promise.resolve();
 				}
           // $fetch('/cart/batch', {
