@@ -39,6 +39,7 @@ const isEditing = computed<boolean>({
 
 function startEdit() {
   isEditing.value = true
+  draft.value = draft.value > 1 ? draft.value : 1;
   resetTimer()
 }
 
