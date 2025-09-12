@@ -54,8 +54,8 @@ export const useCartStore = defineStore<
 		pendingFlush: false,
 	}),
 	getters: {
-    totalItems: (s: State) => Object.values(s.items).reduce((curr, item) => curr + item.quantity, 0),
-    qtyByProduct: (s: State) => (id: ProductId) => s.items[id]?.quantity ?? 0,
+    totalItems: (s: State) => Object.values(s.items).reduce((curr, item) => curr + item.amount, 0),
+    qtyByProduct: (s: State) => (id: ProductId) => s.items[id]?.amount ?? 0,
     hasOtherStand: (s: State) => (standId: StandId) => s.standId !== null && s.standId !== standId,
     asArray: (s: State) => Object.values(s.items),
   },
@@ -92,7 +92,7 @@ export const useCartStore = defineStore<
         this.items[payload.standId] = {
           productId: payload.productId,
           standId: payload.standId,
-          quantity: payload.delta,
+          amount: payload.delta,
           price: payload.price,
         }
       }

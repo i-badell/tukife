@@ -1,20 +1,54 @@
 <script lang="ts" setup>
-import ModalAlert from '~/components/modal-alert.vue';
 import type ProductCard from '~/components/product-card.vue';
 import { ErorrCodes } from '~~/shared/constants/errors';
 import type { CartItem } from '~~/shared/types/products';
+import { mergeProductsWithCart } from '~~/shared/utils/cart.util';
 
 const route = useRoute();
 const standId = computed(() => route.params.standId as string);
-const cartService = useCartService();
+const opts = { server: true, lazy: true } 
 
-const overlay = useOverlay()
+const { data: hasOtherCart } = await useFetch<boolean>(
+  `/api/cart/${standId.value}/hasOtherCart`,
+  { ...opts, key: `hoc:${standId.value}` }
+)
+console.log("TEST: hoc", hasOtherCart.value)
 
-const modal = overlay.create(ModalAlert)
-const hasOtherCart = computed(() => cartService.hasOtherStand(standId.value))
+let products = ref<CartItem[]>([])
+
+if (hasOtherCart.value) {
+  const [
+    { data: productsRef },
+    { data: cartRef }
+  ] = await Promise.all([
+    useFetch<CartItem[]>(`/api/products/${standId.value}`, { ...opts, key: `products:${standId.value}` }),
+    useFetch<CartLine[]>(`/api/cart/${standId.value}`, { ...opts, key: `cart:${standId.value}` })
+  ])
+  products.value = mergeProductsWithCart(productsRef.value ?? [], cartRef.value ?? [])
+  console.log("TEST: has other cart", {
+    products: productsRef.value,
+    cart: cartRef.value,
+    merge: products.value
+  })
+} else {
+  const { data: productsRef } = await useFetch<CartItem[]>(
+    `/api/products/${standId.value}`,
+    { ...opts, key: `products:${standId.value}` }
+  )
+  console.log("TEST: doesnt have other cart", productsRef.value)
+  products.value = mergeProductsWithCart(productsRef.value ?? []);
+}
+
+const {
+  put: addToCart,
+  clear: emptyCart,
+} = useCartStore();
+
+
 const showPrompt = ref(false)
 let pendingAction: null | (() => void) = null
 const editors = ref<Record<string, typeof ProductCard>>({})
+const modal = useAlertDialog();
 
 function setEditorRef(id: string, el: unknown) {
   if (!el) {
@@ -22,26 +56,29 @@ function setEditorRef(id: string, el: unknown) {
     return
   }
 
-  editors.value[id] = el as typeof ProductCard 
+  editors.value[id] = el as typeof ProductCard
 }
 
-function handleProductUpdate(product: Product, quantity: number) {
+function handleUpdateComplete(product: Product, quantity: number) {
   try {
-    cartService.put(product, quantity)
+    addToCart(product, quantity)
   } catch (e: any) {
     if (e.message === ErorrCodes.DIFFERENT_STORE) {
       showPrompt.value = true;
-      pendingAction = () => cartService.put(product, quantity);
+      pendingAction = () => addToCart(product, quantity);
     }
   }
 }
 
-
-async function handleEditStart(productId: string) {
+async function handleUpdateStart(productId: string) {
   if (hasOtherCart.value) {
-    const instance = modal.open();  
-    const confirm = await instance.result
-    if (confirm) confirmSwitchStore();
+    const confirm = await modal.showAndWaitResponse();
+    if (confirm) {
+      emptyCart()
+      pendingAction?.()
+      pendingAction = null
+      return;
+    }
     editors.value[productId]?.cancelEdit();
   }
 }
@@ -50,14 +87,7 @@ definePageMeta({
   layout: 'stand'
 })
 
-function confirmSwitchStore() {
-  cartService.clear()       // limpiamos local y cola
-  pendingAction?.()  // re-aplicamos la accion original
-  pendingAction = null
-}
-const { data: storeProducts } = await useFetch<CartItem[]>(`/api/products/${123}`)
 
-const products = ref(cartService.mergeWithCart(storeProducts.value ?? []));
 </script>
 
 <template>
@@ -73,21 +103,14 @@ const products = ref(cartService.mergeWithCart(storeProducts.value ?? []));
     <div class="flex flex-col">
       <ProductCard 
         v-for="product in products"
+        :key="product.productId"
         :ref="(el) => setEditorRef(product.productId, el)"
         :product="product"
-        :amount="0"
+        :amount="product.amount"
         class="my-2 shadow-xs"
-        @amount-update="handleProductUpdate"
-        @edit-started="handleEditStart(product.productId)"
+        @amount-update-complete="handleUpdateComplete"
+        @amount-update-start="handleUpdateStart(product.productId)"
         />
     </div>
-
-    <dialog v-show="showPrompt" open class="p-4 rounded-xl border">
-      <p class="mb-3">Ya tenés un carrito de otra tienda. ¿Vaciar y seguir?</p>
-      <div class="flex gap-2">
-        <button class="px-3 py-1 rounded bg-emerald-600 text-white" @click="confirmSwitchStore">Sí</button>
-        <button class="px-3 py-1 rounded bg-gray-200" @click="hasOtherCart=false">No</button>
-      </div>
-    </dialog>
   </div>
 </template>

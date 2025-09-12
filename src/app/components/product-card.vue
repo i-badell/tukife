@@ -40,12 +40,12 @@ const { product, amount } = defineProps<{
 const editOpen = ref(false);
 
 const emit = defineEmits<{ 
-  (evt: 'amountUpdate', product: Product, quantity: number ) : void 
-  (evt: 'editStarted') : void
+  (evt: 'amountUpdateComplete', product: Product, quantity: number ) : void 
+  (evt: 'amountUpdateStart') : void
 }>();
 
-const amountUpdate = (payload: number) => emit('amountUpdate', product, payload);
-const handleClick = () => emit('editStarted');
+const amountUpdate = (payload: number) => emit('amountUpdateComplete', product, payload);
+const handleClick = () => emit('amountUpdateStart');
 const controls = ref<typeof ProductButtons | null>(null)
 const cancelEdit = () => {
   controls.value?.cancelEdit();

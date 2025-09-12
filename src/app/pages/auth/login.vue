@@ -19,7 +19,7 @@
 <script lang="ts" setup>
 import { useRoute } from 'vue-router';
 import { useAuthService } from '@/composables/use-auth-service';
-import { Guards } from '~~/utils/guards.util';
+import { Guards } from '~~/shared/utils/guards.util';
 
 const showSpinner = ref(true);
 const { errorTimeout } = useRuntimeConfig().public;

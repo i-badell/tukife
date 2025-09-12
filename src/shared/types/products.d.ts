@@ -13,7 +13,7 @@ export interface Product {
 export interface CartLine {
   productId: ProductId;
   standId: StandId;
-  quantity: number;
+  amount: number;
   price: number;
 }
 
