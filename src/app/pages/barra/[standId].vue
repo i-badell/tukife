@@ -12,31 +12,24 @@ const { data: hasOtherCart } = await useFetch<boolean>(
   `/api/cart/${standId.value}/hasOtherCart`,
   { ...opts, key: `hoc:${standId.value}` }
 )
-console.log("TEST: hoc", hasOtherCart.value)
 
 let products = ref<CartItem[]>([])
 
 if (hasOtherCart.value) {
-  const [
+ const { data: productsRef } = await useFetch<CartItem[]>(
+    `/api/products/${standId.value}`,
+    { ...opts, key: `products:${standId.value}` }
+  )
+  products.value = mergeProductsWithCart(productsRef.value ?? []);
+} else {
+ const [
     { data: productsRef },
     { data: cartRef }
   ] = await Promise.all([
     useFetch<CartItem[]>(`/api/products/${standId.value}`, { ...opts, key: `products:${standId.value}` }),
     useFetch<CartLine[]>(`/api/cart/${standId.value}`, { ...opts, key: `cart:${standId.value}` })
-  ])
-  products.value = mergeProductsWithCart(productsRef.value ?? [], cartRef.value ?? [])
-  console.log("TEST: has other cart", {
-    products: productsRef.value,
-    cart: cartRef.value,
-    merge: products.value
-  })
-} else {
-  const { data: productsRef } = await useFetch<CartItem[]>(
-    `/api/products/${standId.value}`,
-    { ...opts, key: `products:${standId.value}` }
-  )
-  console.log("TEST: doesnt have other cart", productsRef.value)
-  products.value = mergeProductsWithCart(productsRef.value ?? []);
+  ]);
+  products.value = mergeProductsWithCart(productsRef.value ?? [], cartRef.value ?? []);
 }
 
 const {
