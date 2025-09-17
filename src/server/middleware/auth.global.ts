@@ -29,10 +29,5 @@ function isRouteExcluded(event: H3Event): boolean {
       break;
     }
   }
-  console.log('TEST', {
-    requestUrl: path,
-    path: event.path,
-    isExcluded
-  })
   return isExcluded;
 }

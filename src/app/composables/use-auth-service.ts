@@ -1,7 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-vue'
 import { computed } from 'vue'
 import type { User } from '@auth0/auth0-vue'
-import { Guards } from '~~/utils/guards.util';
+import { Guards } from '~~/shared/utils/guards.util';
 
 export interface AuthService {
   user: User | null;

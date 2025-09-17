@@ -1,10 +1,32 @@
+export type ProductId = string;
+export type StandId = string;
+
 export interface Product {
-  productId: string
+  productId: ProductId;
+  standId: StandId; 
   name: string
   description: string
   price: number
   imageUrl: string
 }
+
+export interface CartLine {
+  productId: ProductId;
+  standId: StandId;
+  amount: number;
+  price: number;
+}
+
+export type CartLines = Record<ProductId, CartLine>;
+
+export interface CartDelta {
+  productId: ProductId;
+  standId: StandId;
+  delta: number;
+  price: number;
+}
+
+export interface BatchPayload { deltas: Delta[] }
 
 export interface Catalog extends Product { }
 
