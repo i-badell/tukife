@@ -1,7 +1,6 @@
 import { ErorrCodes } from "~~/shared/constants/errors";
 import localforage from "localforage";
-import type { CartDelta, CartItem, CartLines, Product, StandId } from "~~/shared/types/products"
-import { de, it } from "@nuxt/ui/runtime/locale/index.js";
+import type { CartDelta, CartLines, Product, StandId } from "~~/shared/types/products"
 import { backoffRetry } from "~/utilis/backoff-retry";
 import type { _GettersTree } from "pinia";
 

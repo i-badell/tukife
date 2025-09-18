@@ -4,7 +4,7 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
   compatibilityDate: "2025-05-15",
-  devtools: { enabled: false },
+  devtools: { enabled: true },
   modules: [
     "@nuxt/eslint",
     "@nuxt/image",

@@ -9,7 +9,7 @@ const standId = computed(() => route.params.standId as string);
 const opts = { server: true, lazy: true } 
 
 const { data: hasOtherCart } = await useFetch<boolean>(
-  `/api/cart/${standId.value}/hasOtherCart`,
+  `/api/cart/hoc/${standId.value}/hasOtherCart`,
   { ...opts, key: `hoc:${standId.value}` }
 )
 
@@ -27,7 +27,7 @@ if (hasOtherCart.value) {
     { data: cartRef }
   ] = await Promise.all([
     useFetch<CartItem[]>(`/api/products/${standId.value}`, { ...opts, key: `products:${standId.value}` }),
-    useFetch<CartLine[]>(`/api/cart/${standId.value}`, { ...opts, key: `cart:${standId.value}` })
+    useFetch<CartItem[]>(`/api/cart/${standId.value}`, { ...opts, key: `cart:${standId.value}` })
   ]);
   products.value = mergeProductsWithCart(productsRef.value ?? [], cartRef.value ?? []);
 }
